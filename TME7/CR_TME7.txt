@@ -1,0 +1,105 @@
+Binome :
+
+AIT MIMOUN Yasmine
+TRAORE Madina
+
+Bonjour, ci-joint le compte-rendu initial de notre TME7.
+
+Exercice 1:
+
+2.
+(i) Si l'agent A annonce que l'agent B possède la carte verte alors tous les mondes sont supprimés car il est impossible que A connaisse la carte de B.
+
+(ii) Si l'agent A annonce qu'il ne sait pas si l'agent B possède la carte verte alors aucun monde n'est supprimé car à l'origine chaque joueur reçoit une carte qu'il ne montre pas aux autres joueurs donc A ne connait pas la carte de B.
+
+3.
+Première séquence :
+
+model1=upd_pa model0 (Kn b (Ng holds_b_jaune))
+model2=upd_pa model1 (Ng (Kn a holds_b_rouge))
+upd_pa model2 (Kn a (Ng holds_a_jaune))
+
+A la fin de cette séquence on obtient le modèle suivant :
+
+Mo [('r','v','j')] [a,b,c] [] [(a,[[('r','v','j')]]),(b,[[('r','v','j')]]),(c,[[('r','v','j')]])] []
+
+Donc l'agent A sait qu'il possède la carte rouge, l'agent B sait qu'il possède la carte verte et l'agent C sait qu'il possède la carte jaune.
+
+Deuxième séquence :
+
+Etape 1
+
+model1=upd_pa model0 (Kn c (Ng holds_c_jaune))
+
+On obtient le modèle suivant :
+
+Mo [('r','j','v'),('j','r','v'),('j','v','r'),('v','j','r')] [a,b,c] [] [(a,[[('r','j','v')],[('j','r','v'),('j','v','r')],[('v','j','r')]]),(b,[[('j','v','r')],[('r','j','v'),('v','j','r')],[('j','r','v')]]),(c,[[('j','v','r'),('v','j','r')],[('j','r','v'),('r','j','v')]])] []
+
+En effet, si le joueur c annonce qu’il sait qu’il ne possède pas la carte jaune alors les deux mondes où C possède la carte jaune (('r','v','j') et ('v','r','j')) sont supprimés.
+
+Etape 2
+
+model2=upd_pa model1 (Ng (Kn a (Kn b holds_b_jaune)))
+
+On obtient le modèle suivant :
+
+Mo [('j','r','v'),('j','v','r')] [a,b,c] [] [(a,[[('j','r','v'),('j','v','r')]]),(b,[[('j','v','r')],[('j','r','v')]]),(c,[[('j','v','r')],[('j','r','v')]])] []
+
+En effet, si le joueur a annonce qu’il ne sait pas que le joueur b sait qu’il (b) possède la carte jaune alors les mondes tels que a peut déduire que le joueur b sait qu'il possède la carte jaune (('r','j','v') et ('v','j','r')) sont supprimés.
+ 
+
+upd_pa model2 (Kn c (Ng holds_b_verte))
+
+A la fin de la séquence on obtient le modèle suivant :
+
+Mo [('j','r','v')] [a,b,c] [] [(a,[[('j','r','v')]]),(b,[[('j','r','v')]]),(c,[[('j','r','v')]])] []
+
+Donc l'agent A sait qu'il possède la carte jaune, l'agent B sait qu'il possède la carte rouge et l'agent C sait qu'il possède la carte verte.
+
+4.
+Le résultat final dépend effectivement de l'ordre dans lequel les annonces sont effectuées.
+
+Par exemple si l'on exécute les annonces de la première séquence dans cet ordre :
+
+model1=upd_pa model0 (Ng (Kn a holds_b_rouge))
+model2=upd_pa model1 (Kn b (Ng holds_b_jaune))
+upd_pa model2 (Kn a (Ng holds_a_jaune))
+
+On obtient un résultat différent de celui obtenu précédemment :
+
+Mo [('r','v','j'),('v','r','j')] [a,b,c] [] [(a,[[('r','v','j')],[('v','r','j')]]),(b,[[('r','v','j')],[('v','r','j')]]),(c,[[('r','v','j'),('v','r','j')]])] []
+
+
+Exercice 2
+
+2.
+Un agent i connaît la date d'anniversaire de Cheryl s'il sait l'une des dates (parmi toutes les dates possibles).
+
+3.
+(i) model1=upd_pa model0 (Conj [(Ng (knWhich a)),(Kn a (Ng (knWhich b)))])
+
+On obtient le modèle suivant :
+
+Mo [(14,"July"),(16,"July"),(14,"August"),(15,"August"),(17,"August")] [a,b] [] [(a,[[(14,"July"),(16,"July")],[(14,"August"),(15,"August"),(17,"August")]]),(b,[[(14,"July"),(14,"August")],[(15,"August")],[(16,"July")],[(17,"August")]])] []
+
+(ii) model2=upd_pa model1 (knWhich b)
+
+On obtient le modèle suivant :
+
+Mo [(16,"July"),(15,"August"),(17,"August")] [a,b] [] [(a,[[(16,"July")],[(15,"August"),(17,"August")]]),(b,[[(15,"August")],[(16,"July")],[(17,"August")]])] []
+
+(iii) model3=upd_pa model2 (knWhich a)
+
+On obtient le modèle suivant :
+
+Mo [(16,"July")] [a,b] [] [(a,[[(16,"July")]]),(b,[[(16,"July")]])] []
+
+Cheryl est donc née le 16 Juillet.
+
+4. La première partie de l'annonce (i) ("Je ne sais pas quelle est la date d’anniversaire de Cheryl") est superflue car à l'origine aucun agent ne connaît la date d'anniversaire de celle-ci. 
+
+RECREATION
+
+Exercice 3
+
+

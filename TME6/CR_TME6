@@ -1,0 +1,81 @@
+Remarque : La logique S5 ne reconnaît ni l'implication ni le "ou".
+
+Exercice 1
+
+On note F1 la première formule.
+
+F1 = not and knows P knows not knows P
+
+Il existe un modèle de Kripke tel que F1 est vraie donc F1 est satisfiable.
+Par ailleurs, il n'existe pas de modèle de Kripke tel que not F1 est vraie donc not F1 est insatisfiable : F1 est alors valide.
+
+
+On note F2 la deuxième formule.
+
+F2 = and knows P knows knows not P
+
+Il n'existe pas de modèle de Kripke tel que not F2 est vraie donc not F2 est insatisfiable : F2 est alors valide.
+
+
+On note F3 la troisième formule.
+
+F3 = not and knows P not knows knows not P
+
+Il existe un modèle de Kripke tel que F3 est vraie donc F3 est satisfiable et il existe un modèle de Kripke tel que not F3 est vraie donc F3 n'est pas valide.
+
+
+Exercice 2
+
+Pour prouver l'équivalence, on montre que les formules F1 et F2 suivantes sont valides.
+
+F1 = not and knows not knows P knows P
+
+F2 = not and not knows P not knows not knows P
+
+Pour prouver qu'elles sont valides, on montre que leur négation est insatisfiable.
+
+not F1 et not F2 sont bien insatisfiables dans le système S5 donc l'équivalence est valide.
+
+En revanche elles ne le sont pas dans le système S4 donc l'équivalence n'est pas valide dans le système S4.
+
+L'axiome (5) est donc nécessaire pour prouver cette équivalence.
+
+
+Exercice 3
+
+2)
+
+Dans tous les mondes w1,w2,w3:
+    --[or nec R3 C nec R3 not C] est faux
+    --[or nec R1 A nec R1 not A] est vrai
+
+Alors A peut toujours savoir si elle a le papillon sur la tete et B ne peut jamais savoir si elle a le papillon sur la tete
+
+3)
+
+[B peut savoir si elle a le papillon sur la tete] ssi (or nec R2 B nec R2 not B) est satisfiable
+
+
+Dans le monde w3 la formule (or nec R2 B nec R2 not B) est vrai  et dans le monde w3 C a le papillon sur la tete alors B peut savoir si elle a le papillon sur la tete si C a le papillon sur la tete.
+
+
+4)
+nec R1 not or nec R3 C nec R3 not C est valide dans tous les mondes w1,w2,w3
+alors
+ A sait que C ne sait pas si elle a un papillon sur la tete
+
+5)
+
+F=or and not nec R2 B not nec R2 not B nec R1 or nec R2 B nec R2 not B
+
+est valide dans les 3 mondes w1, w2 ,w3 alors quand B sait si elle a un papillon sur la tête, alors A sait qu’elle le sait
+
+Exercice 4
+
+Le modèle de Kripke défini de la manière suivante correspond bien à la logique S5 et rend les formules données valides :
+
+W = {w1,w2,w3,w4}
+R1 = {(w1,w2),(w3,w4)}
+R2 = {(w1,w2)}
+R3 = {(w1,w3),(w2,w4)}
+(La relation est supposée symétrique et réflexive) 
