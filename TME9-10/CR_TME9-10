@@ -1,0 +1,68 @@
+Exercice01:
+
+Question02:
+
+Le graphe est borné : 6k-borné
+Chaque transition est vivante donc le graphe est vivant.
+
+
+Exercice02:
+
+Question04:
+En utilisant l'analyseur d'accessibilité avec sortie textuelle on peut verifier que le réseau de Petri est borné ,pas vivant et pas sans blocage
+il n'est pas sans blocage car on a un marquage puits,
+il n'est pas vivant car il n'existe pas de transition vivante.
+
+marquage puit :(0,1,0,0),
+sur cet etat on ne peut plus franchir aucune transition, car t0 est la seule transition accessible a partir de p1 qui necessite un marquage sur p2 pour etre franchi
+
+
+On peut determiner a partir de Tina si le graphe est quasi vivant en verifiant la présence de toutes les transitions dans la rubrique reachability graph de l'analyseur d'accessibilité avec sortie textuelle, si il existe une transition manquante alors celle ci n'est pas franchissable a partir du marquage initial, donc le graphe ne peut pas etre quasi vivant.
+
+
+Exercice03:
+2.a)
+Transitions vivantes:t0,t1,t2,t3 et t4.
+
+2.b)
+Avec un marquage initial (1,0,0,0) nous obtenons un réseau 1-borné avec blocage car ce marquage initial est un marquage puit
+Transitions vivantes:aucune.
+
+2.c)
+Avec un marquage initial (0,0,1,0) nous obtenons un reseau borne et sans blocage et reversible, mais ni vivant, ni quasi-vivant.
+il est 1-borné ,
+il est réversible car on peut revenir au marquage initial,
+il est sans blocage car les 2 transitions t3 et t4 sont franchissables,
+il n'est pas quasi-vivant car les transitions t2 et t0 et t1 ne sont pas franchissables ,
+il n'est pas vivant car non quasi-vivant.
+Transitions vivantes: t3 et t4.
+
+2.d)
+Avec un marquage initial (0,1,0,0) nous obtenons un reseau borne et sans blocage et non reversible, ni vivant, ni quasi-vivant.
+il n'est pas révesible car on ne peut pas revenir au marquage initial.
+Transitions vivantes : t1,t3 et t4.
+
+
+3.a)
+Avec un marquage initial (3,0,0,0) et en modifiant les poids des arcs de la transition t0: poid de l'arc entrant = 3, poid de l'arc sortant vers p2 = 1, poid de l'arc sortant vers p1: inchangé, nous obtenons un réseau borné , quasi vivant et avec blocage.
+il est 2-borné,
+il est quasi vivant car on peut franchir toutes les transitions a partir du marquage initial au moins une fois,
+il est avec blocage car on a un marquage puit (0,2,0,0) , aucune transition ne peut etre franchi a partir de ce marquage.
+
+3.b)
+Avec un marquage initial (3,1,0,0) et en modifiant les poids des arcs de la transition t0: poid de l'arc entrant = 3, poid de l'arc sortant vers p2 = 1, poid de l'arc sortant vers p1: inchangé, nous obtenons un réseau borné , quasi vivant, sans blocage et non réversible ni vivant.
+
+
+3.d)
+Avec un marquage initial (3,1,0,0) et en modifiant les poids des arcs de la transition t0: poid de l'arc entrant = 2, poid de l'arc sortant vers p2 = 1, poid de l'arc sortant vers p1: inchangé, nous obtenons un réseau borné ,vivant et réversible.
+
+
+Execice04:
+Lors de l'utilisation du simulateur pas à pas, nous pouvons constater qu'il y a plusieurs scénario possibles car il choisit au hasard une transition parmi celles franchissables.
+Pour un marquage initial: (1,0,0,0,0,0,0) ie: un seul jouet a fabriquer , nous avons 3 scénario possibles apres la distribution du stock :
+
+Scénario1:sculpter, peindre la carrosserie puis fabriquer les roues.
+Scénario2:sculpter la carrosserie, fabriquer les roues puis peindre la carrosserie.
+Scénario3:fabriquer les roues, sculpter puis peindre la carrosserie.
+
+On peut déduire le nombre de scénario possibles.
