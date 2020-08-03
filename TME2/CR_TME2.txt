@@ -1,0 +1,15 @@
+Exercice 1 et 2
+
+Observation des traces d'execution :
+
+Pour determiner si les requetes entrees sont vraies ou fausses, SWI-Prolog s'appuie sur les regles et faits donnes puis cherche un enchainement de regles et/ou de faits rendant la requete vraie a l'aide d'un arbre d'appels. S'il en trouve un il indique true, sinon il indique false.
+
+Exercice 3
+
+2. La requete permettant de repondre a la question "qui va reussir ?" est reussit(X).
+
+Exercice 4
+
+On remarque que pour certaines requetes (celles faisant appel aux predicats parent ou ancetre par exemple), SWI-Prolog repond true;false. Cela est du au fait que les predicats parent et ancetre sont definis a l'aide de plus d'une seule regle. Ainsi, meme si la requete faisant appel a l'un de ces deux predicats est vraie, il pourra neanmoins exister un chemin dans l'arbre des appels rendant la requete fausse (car une des regles n'aura pas ete respectee).
+
+6. En faisant

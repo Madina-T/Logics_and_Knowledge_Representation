@@ -1,0 +1,90 @@
+Ce troisième TME nous a permis de nous familiariser davantage avec le langage Prolog découvert au TME précédent. Nous avons appris à manipuler des listes en Prolog et à y appliquer des opérations basiques telles que la concaténation, la suppression d'éléments ou encore l'inversion de liste en utilisant des prédicats. La manière de raisonner en Prolog diffère totalement de celle utilisée pour coder dans les langages de programmation rencontrés auparavant (Python, C, Java, etc.). En effet, voici la démarche que nous avons effectué pour écrire les prédicats demandés :
+
+1. Concaténation
+
+Prédicats :
+
+concatene([],L,L).
+concatene([X | L1],L2,[X | L]) :- concatene(L1,L2,L).
+
+Explication :
+
+L'idée était de considérer la première liste à concaténer comme la concaténation de deux sous-listes ([X | L1]) avec X jouant le role du premier caractère de la liste et L1 la queue de la liste. Il suffisait alors ensuite d'appeler récursivement concatene sur L1 et L2 (avec comme cas de base : la liste vide concaténée à une liste L donne la liste L) puis de finalement concaténer le premier caractere X avec la liste L obtenu par les appels récursifs.
+
+2. Inversion
+
+Prédicats :
+
+inverse([],[]).
+inverse([X | L],LR) :- inverse(L,LI),concatene(LI,[X],LR).
+
+Explication :
+
+L'idée était de considérer la liste à inverser comme la concaténation de deux sous-listes ([X | L]) comme pour concatene puis de concaténer l'inverse de L à X en appelant récursivement inverse (avec comme cas de base : l'inverse de la liste vide est la liste vide). Ici il était important de remarquer qu'écrire concatene(LI,X,LR) au lieu de concatene(LI,[X],LR) ne fonctionnait pas car lorsque X est un unique caractère et non une liste, il ne peut évidemment pas être concaténé à une liste.
+
+2. Supprime
+
+Prédicats :
+
+supprime([],_,[]).
+supprime([X | L],S,LR) :- X == S,supprime(L,S,LR).
+supprime([X | L],S,LR) :- X \== S,supprime(L,S,LS),concatene([X],LS,LR).
+
+Explication :
+
+Comme précédemment nous avons considéré la liste en entrée comme la concaténation de deux sous-listes ([X | L]). Nous avons ensuite distingué deux cas :
+ - celui ou X est identique au caractère à supprimer (S) : dans ce cas on obtient la liste finale simplement en appelant récursivement supprime sur L  (avec comme cas de base : si l'on supprime n'importe quel caractère de la liste vide, on obtient la liste vide)
+ - celui ou X est différent du caractère à supprimer : dans ce cas on constitue la liste finale en concaténant [X] (et non pas X comme pour inverse) avec la liste LS obtenue en supprimant tous les caractères S de L
+
+3. Supprime
+
+Prédicats :
+
+filtre(L,[],L).
+filtre(L1,[S | L2],LR) :- supprime(L1,S,LS),filtre(LS,L2,LR).
+
+Explication :
+
+L'idée était d'utiliser supprime pour supprimer les caractères un à un puis d'appeler récursivement filtre sur la liste LS et les caractères restants à supprimer.
+
+4. Palindrome
+
+Prédicats :
+
+palindrome(L) :- inverse(L,L).
+
+Explication :
+
+Un palindrome est simplement un mot qui, inversé, donne le même mot.
+
+5. Palindrome
+
+Prédicats :
+
+palindrome2([]).
+palindrome2([_]).
+palindrome2([Xd | Lf]) :- concatene([Xd],M,Ld),concatene(M,[Xf],Lf),Xd == Xf,palindrome2(M).
+
+Explication :
+
+Pour écrire palindrome sans inverse nous avons pensé à isoler le caractère de début de liste (Xd) et celui de fin (Xf) grace a concatene, de les comparer puis, s'ils sont identiques, d'appeler récursivement palindrome sur le mot privé de ses caractères de début et de fin (cas de base : 1. la liste vide est un palindrome, 2. Une liste composée d'un seul caractère est un palindrome).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

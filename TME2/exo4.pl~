@@ -1,0 +1,14 @@
+pere(papa,madina).
+pere(papa,sarah).
+pere(gp,papa).
+pere(agp,gp).
+mere(maman,madina).
+mere(maman,sarah).
+mere(gm,maman).
+mere(agm,gm).
+parent(X,Y) :- pere(X,Y);mere(X,Y).
+parents(X,Y,Z) :- pere(X,Z),mere(Y,Z).
+grandPere(X,Z) :- pere(X,Y),parent(Y,Z).
+frereOuSoeur(X,Y) :- parents(Z,T,X),parents(Z,T,Y).
+ancetre(X,Y) :- parent(X,Y).
+ancetre(X,Z) :- parent(Y,Z),ancetre(X,Y).

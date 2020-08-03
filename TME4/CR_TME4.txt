@@ -1,0 +1,195 @@
+Note : Problème rencontré pour compiler les fichiers sous SWI-Prolog, besoin d'entrer ['nom_fichier']. au lieu de [nom_fichier].
+
+Exercice 2
+
+1. 
+subsS1(C,C). : un concept est subsumé par lui-même
+subsS1(C,D):-subs(C,D),C\==D. : le concept C, différent du concept D, est subsumé par D s'il existe un fait subs(C,D).
+subsS1(C,D):-subs(C,E),subsS1(E,D). : le concept C est subsumé par le concept D s'il est subsumé par un concept E et que ce concept E est subsumé par le concept D (transitivité de la subsomption).
+
+2.
+canari est différent de animal et on a le fait subs(canari,animal) dans la T-Box donc subsS1(canari,animal). rend vrai
+
+chat est différent d'etreVivant mais on a subs(chat,felin), subs(felin,mammifere), subs(mammifere,animal). et subs(animal,etreVivant). dans la T-Box donc, par transitivité,  
+subsS1(chat,etreVivant). est vrai.
+
+3. La requête subsS1(chien,souris). entraîne une boucle infinie car chien est subsumé par canide et canide et subsumé par chien.
+
+5. On est en FL- donc some(R) est traité comme un concept atomique par Prolog.
+
+7.
+La requête subsS(chat,X). devrait renvoyer :
+X = chat ;
+X = felin ;
+X = mammifere ;
+X = animal ;
+X = etreVivant ;
+X = some(mange)
+
+La requête subsS(X,mammifere). devrait renvoyer :
+X = mammifere ;
+X = souris ;
+X = felin ;
+X = canide ;
+X = chat ;
+X = lion ;
+X = chien ;
+
+8.
+On ajoute les règles suivantes :
+
+subsS(A,B,_):-equiv(A,B).
+subsS(A,B,_):-equiv(B,A).
+
+9.
+La requête subsS(lion,all(mange,animal)). rend faux avant ajout des règles de la question 8 et vrai par la suite.
+
+10.
+A ce stade nous avons plus intérêt à dériver subsS que subs puisque nous avons déjà "enrichi" subs pour admettre davantage de règles de la subsomption (la transitivité par exemple).
+Cet enrichissement suffit à répondre à toute requête atomique.
+
+Exercice 3
+
+2.
+subsS(C,and(D1,D2),L):-D1\=D2,subsS(C,D1,L),subsS(C,D2,L).
+
+Cette règle permet de traiter les requêtes de type "C est-il subsumé à la fois par D1 et D2 ?" (avec D1 différent de D2).
+La requête subsS(chihuahua,and(pet,chien)). ne marcherait pas sans cette règle.
+
+
+subsS(C,D,L):-subs(and(D1,D2),D),E=and(D1,D2),not(member(E,L)), subsS(C,E,[E|L]),E\==C.
+
+Cette règle permet de traiter les situations du type "C est subsumé par D car la conjonction de D1 et D2 est subsumée par D et C est subsumé par la conjonction de D1 et D2" tout en évitant l'apparition de boucles infinies (à l'instar de la requête subsS(C,D,L):-subs(C,E),not(member(E,L)),subsS(E,D,[E|L]),E\==D.). En effet, avant tout appel récursif subs(and(D1,D2),D)., on vérifie que and(D1,D2) ne soit pas dans L (liste des concepts déjà utilisés dans la preuve de la subsomption) puis on ajoute and(D1,D2) à L dans l'appel récursif.
+La requête subs(and(all(mange,nothing),some(mange))). ne marcherait pas sans cette règle.
+
+
+subsS(and(C,C),D,L):-nonvar(C),subsS(C,D,[C|L]).
+
+Cette règle permet de traiter les requêtes de type "la conjonction de C et C est-elle subsumée par D ?" (avec C n'étant pas une variable libre).
+La requête subsS(and(chat,chat),felin)). ne marcherait pas sans cette règle.
+
+
+subsS(and(C1,C2),D,L):-C1\=C2,subsS(C1,D,[C1|L]).
+
+Cette règle est une des règles permettant de traiter les requêtes de type "la conjonction de C1 et C2 est-elle subsumée par D ?" (avec C1 différent de C2) : elle permet de regarder récursivement si C1 est subsumée par D.
+La requête subsS(and(felin,animal),etreVivant). ne marcherait pas sans cette règle.
+
+
+subsS(and(C1,C2),D,L):-C1\=C2,subsS(C2,D,[C2|L]).
+
+Cette règle est une des règles permettant de traiter les requêtes de type "la conjonction de C1 et C2 est-elle subsumée par D ?" (avec C1 différent de C2) : elle permet de regarder récursivement si C2 est subsumée par D.
+La requête subsS(and(felin,animal),etreVivant). ne marcherait pas sans cette règle.
+
+
+subsS(and(C1,C2),D,L):-subs(C1,E1),E=and(E1,C2),not(member(E,L)),subsS(E,D,[E|L]),E\==D.
+
+Cette règle est une des règles permettant de traiter les requêtes de type "la conjonction de C1 et C2 est-elle subsumée par D ?" (avec C1 différent de C2) : elle permet de regarder récursivement si C1 est subsumée par D.
+La requête subsS(and(felin,animal),etreVivant). ne marcherait pas sans cette règle.
+
+
+subsS(and(C1,C2),D,L):-Cinv=and(C2,C1),not(member(Cinv,L)),subsS(Cinv,D,[Cinv|L]).
+
+Cette règle est une des règles permettant de traiter les requêtes de type "la conjonction de C1 et C2 est-elle subsumée par D ?" (avec C1 différent de C2) : elle signifie que si la conjonction de C2 et C1 est subsumée par D alors la conjonction de C1 et C2 l'est aussi et réutilise alors les règles précédentes plutôt que de refaire tout le travail de manière symétrique.
+La requête subsS(and(animal,felin),etreVivant). ne marcherait pas sans cette règle.
+
+
+Exercice 4
+
+1.
+On ajoute les règles suivantes :
+
+subsS(C,all(R,D),_):-subs(E,all(R,D)),subsS(C,E).
+subsS(all(R,D),C,_):-subs(all(R,D),E),subsS(E,C).
+subsS(all(R,C),all(R,D),_):-subsS(C,D).
+
+3.
+On rajoute la règle suivante : 
+
+subsS(and(C1,C2),all(R,D),L):- subsS(C1,all(R,D1),[C1|L]),subsS(C2,all(R,D2),[C2|L]),subsS(and(D1,D2),D). 
+
+Les requêtes donnent les résultats suivants : 
+
+?- subsS(and(carnivoreExc,herbivoreExc),all(mange,nothing)).
+true .
+
+?- subsS(and(and(carnivoreExc,herbivoreExc),animal),nothing).
+true .
+
+?- subsS(and(and(carnivoreExc,animal),herbivoreExc)).
+false
+
+
+4.
+On rajoute la règle suivante : 
+
+subsS(all(R,I),all(R,C)):- inst(I,C).
+
+5.
+
+Il est nécessaire d'écrire des règles similaires pour les concepts de la forme some(R) puisque rien n'indique, dans ce fait précédemment, que s'il l'on a all(R) alors on a some(R).
+
+
+6.
+subsS(lion,X). renvoie bien :
+X = lion ;
+X = felin ;
+X = carnivoreExc ;
+X = felin ;
+X = carnivoreExc ;
+X = mammifere ;
+X = mammifere ;
+X = animal ;
+X = animal ;
+X = etreVivant ;
+X = etreVivant ;
+X = some(mange) ;
+X = etreVivant ;
+X = etreVivant ;
+X = some(mange) ;
+X = animal ;
+X = animal ;
+X = etreVivant ;
+X = etreVivant ;
+X = some(mange) ;
+X = etreVivant ;
+X = etreVivant ;
+X = some(mange) ;
+X = predateur ;
+X = predateur ;
+X = all(mange, animal) ;
+X = mammifere ;
+X = mammifere ;
+X = animal ;
+X = animal ;
+X = etreVivant ;
+X = etreVivant ;
+X = some(mange) ;
+X = etreVivant ;
+X = etreVivant ;
+X = some(mange) ;
+X = animal ;
+X = animal ;
+X = etreVivant ;
+X = etreVivant ;
+X = some(mange) ;
+X = etreVivant ;
+X = etreVivant ;
+X = some(mange) ;
+X = predateur ;
+X = predateur ;
+X = all(mange, animal) ;
+X = all(mange, animal) ;
+X = all(mange, etreVivant) ;
+X = all(mange, etreVivant) ;
+X = all(mange, some(mange)) ;
+
+?- subs(X,predateur). renvoie bien :
+X = carnivoreExc ;
+X = carnivoreExc
+
+
+
+
+
+
+

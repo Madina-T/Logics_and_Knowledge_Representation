@@ -1,0 +1,77 @@
+Exercice01:
+
+1.Le logiciel LoTREC permet de constuire graphiquement un modèle de Kripke de la manière suivante:
+
+
+soient w1,w2 deux mondes du Modèle M
+
+---createNewNode w: va créer une case contenant le monde w 
+
+--- link w1 w2 R : va créer une relation R qui va etre representée par un arc allant de la case qui correspond au monde w1 vers la case qui correspond au monde w2
+
+---add w1 A: va ajouter A dans la case de w1 , ce qui equivaut a dire que A est vrai dans le monde w1.
+
+//Exemple du TD5 Exercice 1:
+
+---add w4 isItTrue or nec A nec B : le logiciel va verifier si (or nec A nec B) est vrai dans le monde w4 puis décompose le or en :(nec A) et (nec B) ,il va dans tous les mondes accessibles a partir de w4 et verifie si A est vrai ou si B est vrai, il revient dans le monde w4 et met a jour la valeur de (nec A) et (nec B) puis la valeur de (or nec A nec B).
+
+
+
+2.Modele de Kripke M0:
+W0={w1,w2}
+R0={(w1,w2),(w2,w2)}
+I0 est défini par I0(q)={w1} et I0(p)={w2}
+
+
+Dans le monde w1 on a bien non p et nec pos p qui est vrai 
+car non p est vrai dans w1 
+et (w1,w2) appartient a R (seul monde accessible) 
+et on a bien pos p qui est vrai dans w2 
+car p est vrai dans w2 et (w2,w2) appartient a R0
+
+Dans le monde w1 on a bien q and pos(n) non q qui est vrai 
+car q est vrai dans w1
+et pos(n) non q est vrai 
+car pour n=1 on a (w1,w2) appartient a R et non q est vrai dans le monde w2
+    pour n>1 on a (w2,w2) appartient a R est non q est vrai dans le monde w2
+
+
+
+Exercice02:
+
+F=or pos P nec not P 
+
+1.Pour verifier la satisfiabilité d'une formule le logiciel suppose que cette formule est vrai et essaie de créer un modèle la satisfaisant , soit il reussit a créer ce modèle alors la formule est satisfiable , soit il trouve que des clash alors la formule est insatisfiable.
+
+--premodele1:
+Dans cet exemple il va créer un premier monde ou la formule F est vrai puis va créer un deuxieme monde ou P est vrai pour satisfaire pos P.  
+--premodele2:
+il va créer un monde ou la formule F est vrai , ce monde satisfait nec not P.
+
+2.
+A= and P pos and Q nec not P
+
+La formule A est satisfiable , le logiciel a reussit a creer un modèle qui puisse la satisfaire.
+l'interpretation du graphe du premodele1:
+-création d'un monde w ou A est vrai
+-décomposition de A en F1= P , F2=pos and Q nec not P
+-mettre F1 et F2 a vrai dans w 
+-satisfaire la formule F2 en créant un monde ou F3=and Q nec not P est vrai 
+-mettre q a vrai
+-nec not P est satisfait.
+donc la formule est satisfiable.
+
+
+
+B=or (and P not P) pos pos pos P 
+C=or Q imp P pos or Q not P
+
+les deux formules B et C sont satisfiables.
+
+
+
+3. Pour montrer la validité de la formule, il faut tester si sa négation est insatisfiable 
+F1=imp nec imp P Q imp nec P nec Q
+F2=not F1
+
+la formule F1 est valide.
