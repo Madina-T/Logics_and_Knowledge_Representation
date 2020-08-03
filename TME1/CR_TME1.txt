@@ -1,0 +1,128 @@
+1.2.1.
+
+F1 : L'unique feuille de l'arbre est fermee donc F1 est insatisfiable.
+F2 : Toutes les feuilles de l'arbre sont ouvertes donc F2 est satisfiable. Par ailleurs, non F2 est insatisfiable donc F2 est valide.
+F3 : Les deux feuilles de l'arbre sont fermees donc F3 est insatisfiable.
+F4 : L'arbre contient au moins une feuille ouverte donc F4 est satisfiable. Par ailleurs, non F4 est, elle aussi, satisfiable donc F4 n'est pas valide.
+F5 : L'arbre contient au moins une feuille ouverte donc F5 est satisfiable. Par ailleurs, non F5 est, elle aussi, satisfiable donc F5 n'est pas valide.
+F6 : L'arbre contient au moins une feuille ouverte donc F6 est satisfiable. Par ailleurs, non F6 est insatisfiable donc F6 est valide.
+
+1.3.1.
+
+On utilisera les notations suivantes :
+
+grippe : G
+tamiflu : Ta
+fievre : F
+toux : To
+sup38 : S
+
+Les formules (a), (b), (c) et (d) deviennent alors :
+
+(a) F equiv S
+(b) G imp Ta
+(c) (F and To) imp G
+(d) To and S
+
+En notation préfixe :
+
+(a) equiv F S
+(b) imp G Ta
+(c) imp and F To G
+(d) and To S
+
+1.3.2.
+
+On cherche a savoir si, sachant les hypothèses (a), (b), (c) et (d) vraies, la prise de tamiflu est indiquee dans le cas du patient considere. Autrement dit, on cherche à savoir si la formule F1 = ((a) and (b) and (c) and (d)) imp Ta est valide.
+
+En notation préfixe F1 devient : imp and and and equiv F S imp G Ta imp and F To G and To S Ta
+
+L'arbre contient au moins une feuille ouverte donc F1 est satisfiable. Par ailleurs, non F1 est insatisfiable donc F1 est valide.
+
+Ainsi, la prise de tamiflu est indiquee dans le cas du patient considere.
+
+
+1.3.3
+
+On ajoute la notation suivante :
+
+bronchite : B
+
+On modifie l'hypothese (c) qui devient : (c') (F and To) imp (G or B)
+
+En notation préfixe (c') s'écrit : imp and F To or G B
+
+On cherche a savoir si, sachant les hypothèses (a), (b), (c') et (d) vraies, la prise de tamiflu est toujours indiquee dans le cas du patient considere. Autrement dit, on cherche à savoir si la formule F2 = ((a) and (b) and (c') and (d)) imp Ta est valide.
+
+En notation préfixe F2 devient : imp and and and equiv F S imp G Ta imp and F To or G B and To S Ta
+
+L'arbre contient au moins une feuille ouverte donc F2 est satisfiable. Cependant, non F2 est, elle aussi, satifiable donc F2 n'est pas valide. Ainsi, avec l'incertitude introduite, la prise de tamiflu n'est pas toujours indiquee dans le cas du patient considere.
+
+
+1.4.1.
+
+Soit F la formule : ((a imp b) ∧ b ∧ c) ∨ ((c imp b) ∧ (b imp a)).
+
+---- Table de verite de F 
+
+	a	b	c	a imp b	   c imp b    b imp a    F
+	0	0	0	   1	      1          1       1
+	1	0	0	   0	      1          1	 1
+	0	1	0	   1          1          0       0	
+	1	1	0	   1	      1	         1       1
+	0	0	1	   1	      0	         1       0
+	1	0	1	   0	      0          1       0	
+	0	1	1	   1	      1          0       1
+	1	1	1	   1	      1          1       1
+
+1.4.3.
+
+Soit F la formule suivante : A or (A and B) or (A and B and C)
+
+En notation préfixe F s'écrit : or A or and A B and A and B C
+
+==> F donne bien 3 premodeles :
+
+	P1 = A
+	P2 = A
+	     B
+	P3 = A
+	     B
+             C
+
+Et on a bien M(P1) C M(P2) C M(P3).
+
+1.4.4.	
+
+A un pre-modele peut correspondre plusieurs modeles donc il y a au moins autant de modeles que de premodeles.
+
+
+BILAN
+
+Ce premier TME nous a tout d'abord permis de nous familiariser avec le logiciel LoTREC permettant, entre autres, d'appliquer la méthode des tableaux aux formules de notre choix. Nous avons ainsi pu comprendre de maniere plus approfondie cette methode deja abordee en TD. Celle-ci consiste a construire un arbre en appliquant des regles syntaxiques de decomposition sur la formule donnee en entree. L'etude des feuilles de l'arbre obtenu permet de determiner si une formule est valide, satisfiable ou insatisfiable. En effet, si l'arbre contient au moins une feuille ouverte, alors il existe au moins une interpretation (un modele) pour laquelle la formule est vraie : la formule est donc satisfiable. Si toutes les feuilles de l'arbre sont fermees alors il n'existe aucune interpretation pour laquelle la formule est vraie : la formule est donc insatisifable. Enfin, si la negation d'une formule est insatisifable alors la formule est valide. Grace a l'acquisition de ces notions nous avons pu apprendre a formaliser et resoudre des problemes en les reecrivant sous forme de formules logiques (probleme du diagnostic medical).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
